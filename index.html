@@ -2,95 +2,142 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Book Explorer | Discover Your Next Read</title>
-
+  <meta name="description" content="Discover fantasy novels, romantic adventures, magical kingdoms, and unforgettable stories.">
+  <title>Enchanted Reads | Fantasy and Romance</title>
   <link rel="stylesheet" href="/src/style.css">
+  <script type="module" src="/src/main.js"></script>
 </head>
 
-<body class="min-h-screen bg-slate-50 text-slate-900">
+<body class="min-h-screen bg-purple-50 text-slate-900">
 
-  <header class="bg-white border-b border-slate-200">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-
-      <a href="/" class="text-2xl font-bold text-indigo-600">
-        Book Explorer
+  <header class="sticky top-0 z-10 border-b border-purple-100 bg-white">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
+      <a href="/" class="text-xl font-bold text-purple-800 sm:text-2xl">
+        Enchanted Reads
       </a>
 
-      <div class="flex items-center gap-4">
-        <a href="/" class="font-medium hover:text-indigo-600">
-          Home
+      <div class="flex items-center gap-3 text-sm sm:gap-6 sm:text-base">
+        <a href="/" class="font-semibold text-purple-700">Home</a>
+        <a href="/favorites.html" class="hover:text-purple-700">
+          Favorites <span id="favorites-count">0</span>
         </a>
-
-        <a href="/favorites.html" class="font-medium hover:text-indigo-600">
-          Favorites
-        </a>
-
-        <a href="/about.html" class="font-medium hover:text-indigo-600">
-          About
-        </a>
+        <a href="/about.html" class="hover:text-purple-700">About</a>
       </div>
-
     </nav>
   </header>
 
   <main>
-    <section class="mx-auto max-w-7xl px-4 py-16 text-center">
+    <section class="bg-gradient-to-br from-purple-200 via-pink-100 to-indigo-200">
+      <div class="mx-auto max-w-7xl px-4 py-16 sm:py-24">
+        <p class="mb-4 font-semibold uppercase tracking-widest text-purple-800">
+          Fantasy | Romance | Magic
+        </p>
 
-      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
-        Discover Your Next Favorite Book
-      </h1>
+        <h1 class="max-w-3xl text-4xl font-extrabold leading-tight text-purple-950 sm:text-5xl lg:text-6xl">
+          Step Into a World of Magic and Love
+        </h1>
 
-      <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
-        Explore books, find your next great read, and save your favorites
-        in one simple place.
-      </p>
+        <p class="mt-5 max-w-2xl text-lg leading-relaxed text-purple-900">
+          Discover enchanted kingdoms, dangerous secrets, powerful heroines,
+          magical creatures, and romances worth staying up all night for.
+        </p>
 
-      <div class="mt-8">
-        <a
-          href="#books"
-          class="inline-block rounded-lg bg-indigo-600 px-6 py-3
-                 font-semibold text-white hover:bg-indigo-700"
-        >
-          Explore Books
+        <a href="#books" class="mt-8 inline-block rounded-xl bg-purple-800 px-7 py-3 font-semibold text-white hover:bg-purple-950">
+          Explore the Collection
         </a>
       </div>
-
     </section>
 
-    <section id="books" class="mx-auto max-w-7xl px-4 py-12">
-
+    <section id="books" class="mx-auto max-w-7xl px-4 py-12 sm:py-16">
       <div class="mb-8">
-        <h2 class="text-2xl font-bold">
-          Explore Books
+        <p class="font-semibold uppercase tracking-widest text-purple-600">
+          Your next obsession starts here
+        </p>
+
+        <h2 class="mt-2 text-3xl font-bold text-purple-950 sm:text-4xl">
+          The Enchanted Library
         </h2>
 
-        <p class="mt-2 text-slate-600">
-          Your next great read starts here.
+        <p class="mt-3 max-w-2xl text-slate-600">
+          From enemies who fall in love to fairies with dangerous secrets,
+          find a story that takes you somewhere extraordinary.
         </p>
       </div>
 
-      <div
-        id="book-grid"
-        class="grid grid-cols-1 gap-6 sm:grid-cols-2
-               lg:grid-cols-3 xl:grid-cols-4"
-      >
-        <p class="col-span-full text-slate-500">
-          Our book collection will appear here soon.
-        </p>
+      <form id="search-form" class="mb-8 flex flex-col gap-3 sm:flex-row">
+        <label for="search-input" class="sr-only">Search books by title or author</label>
+
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Search by book title or author..."
+          class="min-w-0 flex-1 rounded-xl border border-purple-200 bg-white px-4 py-3 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
+        >
+
+        <button type="submit" class="rounded-xl bg-purple-800 px-7 py-3 font-semibold text-white hover:bg-purple-950">
+          Search
+        </button>
+      </form>
+
+      <div class="mb-8 flex flex-wrap gap-3">
+        <button type="button" data-category="all" aria-pressed="true" class="rounded-full bg-purple-800 px-5 py-2 text-sm font-semibold text-white">
+          All Books
+        </button>
+
+        <button type="button" data-category="fantasy" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-5 py-2 text-sm text-purple-800 hover:bg-purple-100">
+          Fantasy
+        </button>
+
+        <button type="button" data-category="romance" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-5 py-2 text-sm text-purple-800 hover:bg-purple-100">
+          Romance
+        </button>
+
+        <button type="button" data-category="romantasy" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-5 py-2 text-sm text-purple-800 hover:bg-purple-100">
+          Romantasy
+        </button>
+
+        <button type="button" data-category="young-adult" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-5 py-2 text-sm text-purple-800 hover:bg-purple-100">
+          Young Adult
+        </button>
       </div>
 
+      <p id="results-status" role="status" aria-live="polite" class="mb-5 text-sm text-slate-600"></p>
+
+      <div id="book-grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <p class="col-span-full py-12 text-center text-slate-500">Loading the enchanted library...</p>
+      </div>
+
+      <div id="empty-message" class="hidden py-12 text-center">
+        <p class="text-xl font-semibold text-purple-900">No books found</p>
+        <p class="mt-2 text-slate-600">Try another title or choose a different category.</p>
+        <button id="clear-search" type="button" class="mt-4 rounded-lg bg-purple-800 px-5 py-2 text-white hover:bg-purple-950">
+          Clear Search
+        </button>
+      </div>
+    </section>
+
+    <section class="bg-purple-900 px-4 py-14 text-center text-white">
+      <h2 class="text-3xl font-bold">Every great love begins with a story.</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-purple-200">
+        Find your next fictional obsession and escape into a world where magic is real.
+      </p>
+      <a href="#books" class="mt-7 inline-block rounded-xl bg-white px-6 py-3 font-semibold text-purple-900 hover:bg-purple-100">
+        Find Your Next Read
+      </a>
     </section>
   </main>
 
-  <footer class="mt-12 border-t border-slate-200 bg-white">
-
-    <div class="mx-auto max-w-7xl px-4 py-6 text-center text-sm text-slate-600">
-      <p>Book Explorer — Discover your next great read.</p>
+  <footer class="border-t border-purple-100 bg-white">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 text-center sm:flex-row sm:text-left">
+      <p class="font-bold text-purple-800">Enchanted Reads</p>
+      <p class="text-sm text-slate-500">Fantasy novels. Romantic hearts. Magical adventures.</p>
+      <div class="flex gap-4 text-sm">
+        <a href="/" class="text-purple-700 hover:text-purple-950">Home</a>
+        <a href="/favorites.html" class="text-purple-700 hover:text-purple-950">Favorites</a>
+        <a href="/about.html" class="text-purple-700 hover:text-purple-950">About</a>
+      </div>
     </div>
-
   </footer>
 
 </body>
