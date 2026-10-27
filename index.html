@@ -13,9 +13,9 @@
 
   <header class="sticky top-0 z-20 border-b border-purple-100 bg-white/95 backdrop-blur">
     <nav class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3">
-      <a href="/" class="flex items-center gap-2 font-serif text-xl font-bold text-purple-900 sm:text-2xl">
-        <svg class="h-8 w-8 text-purple-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5.5c3-1 6-1 10 1 4-2 7-2 10-1V19c-3-1-6-1-10 1-4-2-7-2-10-1z"/><path d="M12 6.5V20"/><path d="M12 1.5l.7 1.6 1.6.7-1.6.7L12 6l-.7-1.6-1.6-.7 1.6-.7z"/></svg>
-        Enchanted Reads <span class="text-sm text-purple-500">✦</span>
+      <a href="/" class="flex min-w-0 items-center gap-2 font-serif text-lg font-bold text-purple-900 sm:text-2xl">
+        <svg class="h-7 w-7 shrink-0 text-purple-800 sm:h-8 sm:w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5.5c3-1 6-1 10 1 4-2 7-2 10-1V19c-3-1-6-1-10 1-4-2-7-2-10-1z"/><path d="M12 6.5V20"/></svg>
+        <span class="truncate">Enchanted Reads</span>
       </a>
 
       <div class="order-3 flex w-full items-center justify-center gap-8 text-sm md:order-none md:w-auto md:text-base">
@@ -24,74 +24,72 @@
         <a href="/about.html" class="pb-1 text-slate-700 hover:text-purple-800">About</a>
       </div>
 
-      <div class="flex items-center gap-3">
-        <a href="/#search-input" aria-label="Search" class="rounded-full p-2 text-purple-800 hover:bg-purple-50">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        </a>
-        <a href="/favorites.html" class="inline-flex items-center gap-2 rounded-lg bg-purple-800 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-900">
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.3C1.2 8.6 3 5 6.5 5c2 0 3.7 1.1 5.5 3 1.8-1.9 3.5-3 5.5-3C21 5 22.8 8.6 21.5 11.7 19.500 16.400 12 21 12 21z"/></svg>
-          My Favorites <span id="favorites-count" class="rounded-full bg-white/20 px-2 text-xs">0</span>
-        </a>
-      </div>
+      <a href="/favorites.html" class="inline-flex shrink-0 items-center gap-2 rounded-lg bg-purple-800 px-3 py-2 text-sm font-semibold text-white hover:bg-purple-900 sm:px-4">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.3C1.2 8.6 3 5 6.5 5c2 0 3.7 1.1 5.5 3 1.8-1.9 3.5-3 5.5-3C21 5 22.8 8.6 21.5 11.7 19.5 16.4 12 21 12 21z"/></svg>
+        <span class="hidden sm:inline">My Favorites</span>
+        <span id="favorites-count" class="rounded-full bg-white/20 px-2 text-xs">0</span>
+      </a>
     </nav>
   </header>
 
   <main>
-    <!-- HERO -->
-    <section
-      class="relative overflow-hidden"
-      style="background-image:
-        linear-gradient(to right, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.65) 45%, rgba(255,255,255,0) 75%),
-        url('/hero.jpg'),
-        linear-gradient(135deg, #fbd5e5 0%, #d9b8f0 45%, #8b6fc4 100%);
-        background-size: cover; background-position: center;">
-      <div class="mx-auto max-w-7xl px-4 py-14 sm:py-20 lg:py-24">
-        <p class="font-mono text-sm tracking-wide text-slate-600">
-          Fantasy <span class="mx-1 text-purple-600">✦</span> Romance <span class="mx-1 text-purple-600">✦</span> Unforgettable Stories
-        </p>
+        <section class="mx-auto max-w-7xl px-4 pt-6">
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-pink-200 via-purple-200 to-purple-500 shadow-lg ring-1 ring-purple-100">
 
-        <h1 class="mt-4 max-w-xl font-serif text-4xl font-bold leading-tight text-purple-950 sm:text-5xl lg:text-6xl">
-          Step Into a World of Magic &amp; Love
-        </h1>
+        <img
+          src="/hero.png"
+          alt=""
+          class="absolute inset-0 h-full w-full object-cover object-right"
+          onerror="this.style.display='none'"
+        >
 
-        <p class="mt-5 max-w-lg text-base leading-relaxed text-slate-700 sm:text-lg">
-          Discover enchanting fantasy novels with unforgettable romance, powerful characters, and magical worlds.
-        </p>
+        <div class="absolute inset-0 bg-gradient-to-b from-white/90 via-white/70 to-white/30 md:bg-gradient-to-r md:from-white/95 md:via-white/70 md:to-transparent"></div>
 
-        <form id="search-form" class="mt-8 flex max-w-xl items-center gap-2 rounded-xl border border-white bg-white p-1.5 shadow-lg ring-1 ring-purple-100">
-          <svg class="ml-3 h-5 w-5 shrink-0 text-purple-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <label for="search-input" class="sr-only">Search for a book title</label>
-          <input id="search-input" type="search" placeholder="Search for a book title..."
-            class="min-w-0 flex-1 bg-transparent px-1 py-2 text-slate-800 placeholder-slate-400 outline-none">
-          <button type="submit" class="rounded-lg bg-purple-800 px-5 py-2.5 font-semibold text-white hover:bg-purple-900">
-            Search
-          </button>
-        </form>
+        <div class="relative px-6 py-12 sm:px-10 sm:py-16 lg:px-14 lg:py-24">
+          <p class="text-xs tracking-wide text-slate-600 sm:text-sm">
+            Fantasy <span class="mx-1 text-purple-600">✦</span> Romance <span class="mx-1 text-purple-600">✦</span> Unforgettable Stories
+          </p>
+
+          <h1 class="mt-4 max-w-xl font-serif text-4xl font-bold leading-tight text-purple-950 sm:text-5xl lg:text-6xl">
+            Step Into a World of Magic &amp; Love
+          </h1>
+
+          <p class="mt-5 max-w-lg text-base leading-relaxed text-slate-700 sm:text-lg">
+            Discover enchanting fantasy novels with unforgettable romance, powerful characters, and magical worlds.
+          </p>
+
+          <form id="search-form" class="mt-8 flex w-full max-w-xl items-center gap-2 rounded-2xl bg-white p-1.5 shadow-lg ring-1 ring-purple-100">
+            <svg class="ml-2 h-5 w-5 shrink-0 text-purple-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <label for="search-input" class="sr-only">Search for a book title</label>
+            <input id="search-input" type="search" placeholder="Search for a book title..."
+              class="min-w-0 flex-1 bg-transparent px-1 py-2 text-slate-800 placeholder-slate-400 outline-none">
+            <button type="submit" class="shrink-0 rounded-xl bg-purple-800 px-4 py-2.5 font-semibold text-white hover:bg-purple-900 sm:px-5">
+              Search
+            </button>
+          </form>
+        </div>
       </div>
     </section>
 
-    <!-- FEATURED BOOKS -->
-    <section id="books" class="mx-auto max-w-7xl px-4 py-12">
-      <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <h2 class="flex items-center gap-2 font-serif text-3xl font-bold text-purple-900">
+    <section id="books" class="mx-auto max-w-7xl px-4 py-10 sm:py-12">
+      <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div class="min-w-0">
+          <h2 class="font-serif text-2xl font-bold text-purple-900 sm:text-3xl">
             <span class="text-purple-500">✦</span> Featured Books
           </h2>
           <p class="mt-1 text-slate-600">Romance, magic, and adventures await...</p>
-          <p class="mt-2 flex items-center gap-3 text-sm text-slate-500">
+          <p class="mt-2 flex flex-wrap items-center gap-3 text-sm text-slate-500">
             <span id="results-status" role="status" aria-live="polite"></span>
-            <button id="clear-search" type="button" class="font-semibold text-purple-700 underline hover:text-purple-950">
-              Clear search
-            </button>
+            <button id="clear-search" type="button" class="font-semibold text-purple-700 underline hover:text-purple-950">Clear search</button>
           </p>
         </div>
 
         <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
-          <button type="button" data-category="all" aria-pressed="true" class="rounded-full bg-purple-800 px-5 py-2 text-sm font-semibold text-white">All</button>
-          <button type="button" data-category="romantasy" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-5 py-2 text-sm text-purple-800 hover:bg-purple-100">Romantasy</button>
-          <button type="button" data-category="fantasy" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-5 py-2 text-sm text-purple-800 hover:bg-purple-100">Fantasy</button>
-          <button type="button" data-category="young-adult" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-5 py-2 text-sm text-purple-800 hover:bg-purple-100">Young Adult</button>
-          <button type="button" data-category="new-releases" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-5 py-2 text-sm text-purple-800 hover:bg-purple-100">New Releases</button>
+          <button type="button" data-category="all" aria-pressed="true" class="rounded-full bg-purple-800 px-4 py-2 text-sm font-semibold text-white">All</button>
+          <button type="button" data-category="romantasy" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-4 py-2 text-sm text-purple-800 hover:bg-purple-100">Romantasy</button>
+          <button type="button" data-category="fantasy" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-4 py-2 text-sm text-purple-800 hover:bg-purple-100">Fantasy</button>
+          <button type="button" data-category="young-adult" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-4 py-2 text-sm text-purple-800 hover:bg-purple-100">Young Adult</button>
+          <button type="button" data-category="new-releases" aria-pressed="false" class="rounded-full border border-purple-200 bg-white px-4 py-2 text-sm text-purple-800 hover:bg-purple-100">New Releases</button>
         </div>
       </div>
 
