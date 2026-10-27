@@ -1,6 +1,6 @@
 const API_BASE_URL = "https://openlibrary.org";
 
-function getCategories(subjects) {
+function getCategories(subjects = []) {
   const text = subjects.join(" ").toLowerCase();
   const categories = [];
 
@@ -16,17 +16,11 @@ function getCategories(subjects) {
     categories.push("romance");
   }
 
-  if (
-    text.includes("young adult") ||
-    text.includes("teen fiction")
-  ) {
+  if (text.includes("young adult") || text.includes("teen fiction")) {
     categories.push("young-adult");
   }
 
-  if (
-    categories.includes("fantasy") &&
-    categories.includes("romance")
-  ) {
+  if (categories.includes("fantasy") && categories.includes("romance")) {
     categories.push("romantasy");
   }
 
@@ -34,6 +28,8 @@ function getCategories(subjects) {
 }
 
 function isRelevantBook(book) {
+  if (!book.cover_i) return false;
+
   const subjects = (book.subject || []).join(" ").toLowerCase();
 
   return (
@@ -54,9 +50,7 @@ export async function fetchBooks(searchTerm = "fantasy romance") {
     fields: "key,title,author_name,first_publish_year,subject,cover_i"
   });
 
-  const response = await fetch(
-    `${API_BASE_URL}/search.json?${params.toString()}`
-  );
+  const response = await fetch(`${API_BASE_URL}/search.json?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error(`Unable to fetch books. Status: ${response.status}`);
@@ -68,23 +62,23 @@ export async function fetchBooks(searchTerm = "fantasy romance") {
     .filter(isRelevantBook)
     .map((book) => {
       const subjects = book.subject || [];
+      const year = book.first_publish_year || null;
 
       return {
         id: book.key,
         title: book.title || "Untitled",
         author: book.author_name?.[0] || "Author unknown",
-        year: book.first_publish_year || null,
+        year,
         subjects,
         categories: [
           ...getCategories(subjects),
-          ...((book.first_publish_year || 0) >= 2020 ? ["new-releases"] : [])
+          ...(year && year >= 2020 ? ["new-releases"] : [])
         ],
-        coverUrl: book.cover_i
-          ? `https://openlibrary.org{book.cover_i}-M.jpg`
-          : null,
+        coverUrl: `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`,
         description: subjects.length
           ? `Explore a story connected to ${subjects.slice(0, 3).join(", ")}.`
-          : "Discover a new story in the library."
+          : "Discover a new story in the library.",
+        link: `https://openlibrary.org${book.key}`
       };
     });
 }
