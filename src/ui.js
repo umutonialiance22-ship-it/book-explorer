@@ -1,142 +1,94 @@
 import { isFavorite } from "./favorites.js";
 
-export function renderBooks(container, books, options = {}) {
-  const {
-    showFavorites = true
-  } = options;
+const HEART_OUTLINE = `<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.3C1.2 8.6 3 5 6.5 5c2 0 3.7 1.1 5.5 3 1.8-1.9 3.5-3 5.5-3C21 5 22.800 8.600 21.500 11.700 19.500 16.400 12 21 12 21z"/></svg>`;
+const HEART_FILLED = HEART_OUTLINE.replace('fill="none"', 'fill="currentColor"');
+const ARROW = `<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
 
-  container.replaceChildren();
+const CATEGORY_LABELS = {
+  romantasy: "Romantasy",
+  romance: "Romance",
+  fantasy: "Fantasy",
+  "young-adult": "Young Adult",
+  "new-releases": "New"
+};
 
-  books.forEach((book) => {
-    const card = document.createElement("article");
-
-    card.className =
-      "flex flex-col overflow-hidden rounded-2xl border border-purple-100 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl";
-
-    const coverContainer = document.createElement("div");
-
-    coverContainer.className =
-      "flex h-72 items-center justify-center overflow-hidden bg-gradient-to-br from-purple-950 via-purple-800 to-pink-800";
-
-    if (book.coverUrl) {
-      const cover = document.createElement("img");
-
-      cover.src = book.coverUrl;
-      cover.alt = `Cover of ${book.title}`;
-      cover.loading = "lazy";
-      cover.className = "h-full w-full object-contain";
-      cover.referrerPolicy = "no-referrer";
-
-      cover.addEventListener("error", () => {
-        cover.remove();
-
-        const fallback = document.createElement("div");
-
-        fallback.className =
-          "flex h-full w-full items-center justify-center p-6 text-center";
-
-        const fallbackTitle = document.createElement("p");
-
-        fallbackTitle.className = "text-2xl font-bold text-white";
-        fallbackTitle.textContent = book.title;
-
-        fallback.append(fallbackTitle);
-        coverContainer.append(fallback);
-      }, { once: true });
-
-      coverContainer.append(cover);
-    } else {
-      const fallback = document.createElement("div");
-
-      fallback.className =
-        "flex h-full w-full items-center justify-center p-6 text-center";
-
-      const fallbackTitle = document.createElement("p");
-
-      fallbackTitle.className = "text-2xl font-bold text-white";
-      fallbackTitle.textContent = book.title;
-
-      fallback.append(fallbackTitle);
-      coverContainer.append(fallback);
-    }
-
-    const content = document.createElement("div");
-    content.className = "flex flex-1 flex-col p-5";
-
-    const title = document.createElement("h3");
-
-    title.className = "text-lg font-bold leading-snug text-purple-950";
-    title.textContent = book.title;
-
-    const author = document.createElement("p");
-
-    author.className = "mt-2 text-sm text-purple-600";
-    author.textContent = book.author || "Author unknown";
-
-    const description = document.createElement("p");
-
-    description.className =
-      "mt-3 flex-1 text-sm leading-relaxed text-slate-600";
-
-    description.textContent =
-      book.description || "Discover a new story in the library.";
-
-    content.append(title, author);
-
-    if (book.year) {
-      const year = document.createElement("p");
-
-      year.className = "mt-1 text-xs text-slate-500";
-      year.textContent = `First published: ${book.year}`;
-
-      content.append(year);
-    }
-
-    content.append(description);
-
-    const categoryContainer = document.createElement("div");
-
-    categoryContainer.className = "mt-4 flex flex-wrap gap-2";
-
-    (book.categories || []).forEach((category) => {
-      const tag = document.createElement("span");
-
-      tag.className =
-        "rounded-full bg-purple-100 px-3 py-1 text-xs text-purple-800";
-
-      tag.textContent = category
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
-
-      categoryContainer.append(tag);
-    });
-
-    content.append(categoryContainer);
-
-    if (showFavorites) {
-      const favoriteButton = document.createElement("button");
-
-      favoriteButton.type = "button";
-      favoriteButton.dataset.favoriteId = String(book.id);
-
-      favoriteButton.className =
-        "mt-5 w-full rounded-lg border border-purple-300 px-4 py-2 font-semibold text-purple-800 transition hover:bg-purple-50";
-
-      updateFavoriteButton(favoriteButton, isFavorite(book.id));
-
-      content.append(favoriteButton);
-    }
-
-    card.append(coverContainer, content);
-    container.append(card);
-  });
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
 }
 
-export function updateFavoriteButton(button, saved) {
-  button.textContent = saved
-    ? "Remove from Favorites"
-    : "Add to Favorites";
+export function updateFavoriteButton(button, active, mode = "browse") {
+  const label = mode === "favorites"
+    ? "Remove"
+    : active ? "Saved" : "Add to Favorites";
 
-  button.setAttribute("aria-pressed", String(saved));
+  button.setAttribute("aria-pressed", String(active));
+  button.innerHTML = `${active ? HEART_FILLED : HEART_OUTLINE}<span>${label}</span>`;
+  button.className = active
+    ? "inline-flex items-center gap-2 rounded-lg border border-purple-800 bg-purple-800 px-3 py-2 text-xs font-medium text-white hover:bg-purple-900"
+    : "inline-flex items-center gap-2 rounded-lg border border-purple-200 bg-white px-3 py-2 text-xs font-medium text-purple-800 hover:bg-purple-50";
+}
+
+function createCover(book) {
+  const wrapper = el("div", "flex h-56 items-center justify-center");
+
+  if (book.coverUrl) {
+    const img = el("img", "h-full w-auto max-w-full rounded-md object-contain shadow-md");
+    img.src = book.coverUrl;
+    img.alt = `Cover of ${book.title}`;
+    img.loading = "lazy";
+    wrapper.append(img);
+  } else {
+    const placeholder = el(
+      "div",
+      "flex h-full w-40 items-center justify-center rounded-md bg-gradient-to-br from-purple-900 to-pink-800 p-4 text-center font-serif text-lg text-white shadow-md",
+      book.title
+    );
+    wrapper.append(placeholder);
+  }
+
+  return wrapper;
+}
+
+function createCard(book, mode) {
+  const card = el("article", "flex flex-col rounded-2xl border border-purple-100 bg-white p-4 shadow-sm transition hover:shadow-lg");
+
+  card.append(createCover(book));
+
+  card.append(el("h3", "mt-4 line-clamp-2 font-serif text-lg font-bold text-purple-950", book.title));
+  card.append(el("p", "mt-1 text-sm text-slate-500", book.author));
+  card.append(el("p", "mt-3 line-clamp-3 text-sm leading-relaxed text-slate-600", book.description));
+
+  const tags = el("div", "mt-4 flex flex-wrap gap-2");
+  (book.categories || [])
+    .filter((c) => CATEGORY_LABELS[c])
+    .slice(0, 2)
+    .forEach((c) => {
+      tags.append(el("span", "rounded-full bg-purple-100 px-3 py-1 text-xs text-purple-800", CATEGORY_LABELS[c]));
+    });
+  card.append(tags);
+
+  const actions = el("div", "mt-auto flex items-center justify-between gap-2 pt-5");
+
+  const favButton = document.createElement("button");
+  favButton.type = "button";
+  favButton.dataset.favoriteId = book.id;
+  updateFavoriteButton(favButton, mode === "favorites" ? true : isFavorite(book.id), mode);
+
+  const details = el("a", "inline-flex items-center gap-1 text-xs font-semibold text-purple-800 hover:text-purple-950");
+  details.href = `https://openlibrary.org${book.id}`;
+  details.target = "_blank";
+  details.rel = "noopener noreferrer";
+  details.innerHTML = `View Details ${ARROW}`;
+
+  actions.append(favButton, details);
+  card.append(actions);
+
+  return card;
+}
+
+export function renderBooks(container, books, mode = "browse") {
+  container.replaceChildren(...books.map((book) => createCard(book, mode)));
 }

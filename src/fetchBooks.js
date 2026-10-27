@@ -1,6 +1,6 @@
 const API_BASE_URL = "https://openlibrary.org";
 
-function getCategories(subjects = []) {
+function getCategories(subjects) {
   const text = subjects.join(" ").toLowerCase();
   const categories = [];
 
@@ -34,7 +34,7 @@ function getCategories(subjects = []) {
 }
 
 function isRelevantBook(book) {
-  const subjects = (book.subjects || []).join(" ").toLowerCase();
+  const subjects = (book.subject || []).join(" ").toLowerCase();
 
   return (
     subjects.includes("fantasy") ||
@@ -75,9 +75,12 @@ export async function fetchBooks(searchTerm = "fantasy romance") {
         author: book.author_name?.[0] || "Author unknown",
         year: book.first_publish_year || null,
         subjects,
-        categories: getCategories(subjects),
+        categories: [
+          ...getCategories(subjects),
+          ...((book.first_publish_year || 0) >= 2020 ? ["new-releases"] : [])
+        ],
         coverUrl: book.cover_i
-          ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
+          ? `https://openlibrary.org{book.cover_i}-M.jpg`
           : null,
         description: subjects.length
           ? `Explore a story connected to ${subjects.slice(0, 3).join(", ")}.`
