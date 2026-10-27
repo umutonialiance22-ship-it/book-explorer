@@ -3,30 +3,24 @@ import {
   removeFavorite
 } from "./favorites.js";
 
-import {
-  renderBooks,
-  updateFavoriteButton
-} from "./ui.js";
+import { renderBooks } from "./ui.js";
 
 const favoritesGrid = document.querySelector("#favorites-grid");
 const emptyFavorites = document.querySelector("#empty-favorites");
 const favoritesStatus = document.querySelector("#favorites-status");
 
-function renderFavoritesPage() {
+function renderFavorites() {
   const favorites = getFavorites();
 
-  renderBooks(favoritesGrid, favorites, {
-    showFavorites: true,
-    emptyMessage: "Your collection is empty."
-  });
+  renderBooks(favoritesGrid, favorites);
 
   const hasFavorites = favorites.length > 0;
 
   emptyFavorites.classList.toggle("hidden", hasFavorites);
-  favoritesGrid.classList.toggle("hidden", !hasFavorites);
 
-  favoritesStatus.textContent =
-    `${favorites.length} saved ${favorites.length === 1 ? "book" : "books"}`;
+  favoritesStatus.textContent = hasFavorites
+    ? `${favorites.length} saved ${favorites.length === 1 ? "book" : "books"}`
+    : "Your favorites collection is empty.";
 }
 
 favoritesGrid.addEventListener("click", (event) => {
@@ -36,9 +30,11 @@ favoritesGrid.addEventListener("click", (event) => {
     return;
   }
 
-  removeFavorite(button.dataset.favoriteId);
+  const bookId = button.dataset.favoriteId;
 
-  renderFavoritesPage();
+  removeFavorite(bookId);
+
+  renderFavorites();
 });
 
-renderFavoritesPage();
+renderFavorites();
