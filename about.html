@@ -6,108 +6,91 @@
   <meta name="description" content="Learn about Enchanted Reads, a fantasy and romance book discovery project.">
   <title>About | Enchanted Reads</title>
   <link rel="stylesheet" href="/src/style.css">
+  <script type="module" src="/src/about.js"></script>
 </head>
 
-<body class="min-h-screen bg-purple-50 text-slate-900">
+<body class="min-h-screen bg-white text-slate-900">
 
-  <header class="border-b border-purple-100 bg-white">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
-      <a href="/" class="text-xl font-bold text-purple-800 sm:text-2xl">
-        Enchanted Reads
+  <header class="sticky top-0 z-20 border-b border-purple-100 bg-white/95 backdrop-blur">
+    <nav class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3">
+      <a href="/" class="flex items-center gap-2 font-serif text-xl font-bold text-purple-900 sm:text-2xl">
+        <svg class="h-8 w-8 text-purple-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5.5c3-1 6-1 10 1 4-2 7-2 10-1V19c-3-1-6-1-10 1-4-2-7-2-10-1z"/><path d="M12 6.5V20"/><path d="M12 1.5l.7 1.6 1.6.7-1.6.7L12 6l-.7-1.6-1.6-.7 1.6-.7z"/></svg>
+        Enchanted Reads <span class="text-sm text-purple-500">✦</span>
       </a>
 
-      <div class="flex gap-4 text-sm sm:gap-6 sm:text-base">
-        <a href="/" class="hover:text-purple-700">Home</a>
-        <a href="/favorites.html" class="hover:text-purple-700">Favorites</a>
-        <a href="/about.html" class="font-semibold text-purple-700">About</a>
+      <div class="order-3 flex w-full items-center justify-center gap-8 text-sm md:order-none md:w-auto md:text-base">
+        <a href="/" class="pb-1 text-slate-700 hover:text-purple-800">Home</a>
+        <a href="/favorites.html" class="pb-1 text-slate-700 hover:text-purple-800">Favorites</a>
+        <a href="/about.html" class="border-b-2 border-purple-800 pb-1 font-semibold text-purple-800">About</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="/#search-input" aria-label="Search" class="rounded-full p-2 text-purple-800 hover:bg-purple-50">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </a>
+        <a href="/favorites.html" class="inline-flex items-center gap-2 rounded-lg bg-purple-800 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-900">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.3C1.2 8.6 3 5 6.5 5c2 0 3.7 1.1 5.5 3 1.8-1.9 3.5-3 5.5-3C21 5 22.8 8.6 21.5 11.7 19.5 16.4 12 21 12 21z"/></svg>
+          My Favorites <span id="favorites-count" class="rounded-full bg-white/20 px-2 text-xs">0</span>
+        </a>
       </div>
     </nav>
   </header>
 
-  <main class="mx-auto max-w-5xl px-4 py-16 sm:py-24">
-
-    <section class="rounded-3xl border border-purple-100 bg-white p-8 shadow-sm sm:p-12">
-      <p class="font-semibold uppercase tracking-widest text-purple-600">
-        About the project
-      </p>
-
-      <h1 class="mt-3 text-4xl font-extrabold text-purple-950 sm:text-5xl">
-        Welcome to Enchanted Reads
-      </h1>
-
-      <p class="mt-6 text-lg leading-relaxed text-slate-600">
-        Enchanted Reads is a book discovery web application designed for
-        readers who love fantasy, romantic fantasy, magical adventures,
-        mythical creatures, and unforgettable characters.
-      </p>
-
-      <p class="mt-4 leading-relaxed text-slate-600">
-        The goal is to make discovering your next favorite book enjoyable
-        through a simple, responsive, and interactive browsing experience.
-        Readers can search for books, explore categories, and save their
-        favorites for later.
-      </p>
+  <main>
+    <section class="bg-gradient-to-r from-purple-50 via-pink-50 to-purple-100">
+      <div class="mx-auto max-w-5xl px-4 py-14 sm:py-20">
+        <p class="font-mono text-sm tracking-wide text-purple-700">About the project</p>
+        <h1 class="mt-3 font-serif text-4xl font-bold text-purple-950 sm:text-5xl">Welcome to Enchanted Reads</h1>
+        <p class="mt-6 max-w-3xl text-lg leading-relaxed text-slate-700">
+          Enchanted Reads is a book discovery web application designed for readers who love fantasy,
+          romantic fantasy, magical adventures, mythical creatures, and unforgettable characters.
+        </p>
+        <p class="mt-4 max-w-3xl leading-relaxed text-slate-600">
+          The goal is to make discovering your next favorite book enjoyable through a simple, responsive,
+          and interactive browsing experience. Readers can search for books, explore categories, and save
+          their favorites for later.
+        </p>
+      </div>
     </section>
 
-    <section class="mt-8 grid gap-6 sm:grid-cols-2">
-
-      <article class="rounded-2xl border border-purple-100 bg-white p-7">
-        <h2 class="text-xl font-bold text-purple-950">
-          Discover
-        </h2>
-
-        <p class="mt-3 leading-relaxed text-slate-600">
-          Explore fantasy adventures, romantic stories, magical kingdoms,
-          and new worlds through a searchable book collection.
-        </p>
+    <section class="mx-auto grid max-w-5xl gap-6 px-4 py-12 sm:grid-cols-2">
+      <article class="rounded-2xl border border-purple-100 bg-white p-7 shadow-sm">
+        <h2 class="font-serif text-xl font-bold text-purple-950">✦ Discover</h2>
+        <p class="mt-3 leading-relaxed text-slate-600">Explore fantasy adventures, romantic stories, magical kingdoms, and new worlds through a searchable book collection.</p>
       </article>
 
-      <article class="rounded-2xl border border-purple-100 bg-white p-7">
-        <h2 class="text-xl font-bold text-purple-950">
-          Save Your Favorites
-        </h2>
-
-        <p class="mt-3 leading-relaxed text-slate-600">
-          Keep track of books you want to read using a favorites collection
-          stored in your browser.
-        </p>
+      <article class="rounded-2xl border border-purple-100 bg-white p-7 shadow-sm">
+        <h2 class="font-serif text-xl font-bold text-purple-950">✦ Save Your Favorites</h2>
+        <p class="mt-3 leading-relaxed text-slate-600">Keep track of books you want to read using a favorites collection stored in your browser.</p>
       </article>
 
-      <article class="rounded-2xl border border-purple-100 bg-white p-7">
-        <h2 class="text-xl font-bold text-purple-950">
-          Built with Web Technologies
-        </h2>
-
-        <p class="mt-3 leading-relaxed text-slate-600">
-          This project brings together HTML, Tailwind CSS, JavaScript,
-          ES modules, browser storage, and API integration.
-        </p>
+      <article class="rounded-2xl border border-purple-100 bg-white p-7 shadow-sm">
+        <h2 class="font-serif text-xl font-bold text-purple-950">✦ Built with Web Technologies</h2>
+        <p class="mt-3 leading-relaxed text-slate-600">This project brings together HTML, Tailwind CSS, JavaScript, ES modules, browser storage, and API integration.</p>
       </article>
 
-      <article class="rounded-2xl border border-purple-100 bg-white p-7">
-        <h2 class="text-xl font-bold text-purple-950">
-          Our Mission
-        </h2>
-
-        <p class="mt-3 leading-relaxed text-slate-600">
-          Make it easier for fantasy and romance readers to find stories
-          that capture their imagination.
-        </p>
+      <article class="rounded-2xl border border-purple-100 bg-white p-7 shadow-sm">
+        <h2 class="font-serif text-xl font-bold text-purple-950">✦ Our Mission</h2>
+        <p class="mt-3 leading-relaxed text-slate-600">Make it easier for fantasy and romance readers to find stories that capture their imagination.</p>
       </article>
-
     </section>
 
-    <div class="mt-10 text-center">
-      <a href="/" class="inline-block rounded-xl bg-purple-800 px-7 py-3 font-semibold text-white hover:bg-purple-950">
+    <div class="pb-16 text-center">
+      <a href="/" class="inline-block rounded-xl bg-purple-800 px-7 py-3 font-semibold text-white hover:bg-purple-900">
         Explore the Library
       </a>
     </div>
-
   </main>
 
   <footer class="border-t border-purple-100 bg-white">
-    <div class="mx-auto max-w-7xl px-4 py-6 text-center text-sm text-slate-500">
-      Enchanted Reads — Fantasy novels. Romantic hearts. Magical adventures.
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 text-center sm:flex-row sm:text-left">
+      <p class="font-serif text-lg font-bold text-purple-900">Enchanted Reads <span class="text-purple-500">✦</span></p>
+      <p class="text-sm text-slate-500">Fantasy novels. Romantic hearts. Happier readers.</p>
+      <div class="flex gap-4 text-sm">
+        <a href="/" class="text-slate-500 hover:text-purple-800">Home</a>
+        <a href="/favorites.html" class="text-slate-500 hover:text-purple-800">Favorites</a>
+        <a href="/about.html" class="text-slate-500 hover:text-purple-800">About</a>
+      </div>
     </div>
   </footer>
 
