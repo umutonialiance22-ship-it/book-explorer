@@ -1,5 +1,5 @@
 import { fetchBooks } from "./fetchBooks.js";
-import { featuredBooks } from "./featuredBooks.js";
+import { featuredBooks } from "./featuredbooks.js";
 import { renderBooks, updateFavoriteButton } from "./ui.js";
 import { getFavorites, addFavorite, removeFavorite, isFavorite } from "./favorites.js";
 
