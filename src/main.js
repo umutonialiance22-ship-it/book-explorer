@@ -80,17 +80,49 @@ function mergeWithFeatured(query, apiResults) {
   return [...featuredMatches, ...others];
 }
 
+function showLoadError(query, hasInstantBooks) {
+  if (hasInstantBooks) {
+    resultsStatus.textContent =
+      "Couldn't load more books right now. Press Clear search to try again.";
+    return;
+  }
+
+  bookGrid.replaceChildren();
+  emptyMessage.classList.remove("hidden");
+  emptyText.textContent = "We couldn't load the library. Please check your connection and try again.";
+  resultsStatus.textContent = "Unable to connect to the book service.";
+
+  removeRetryButton();
+  const retryButton = document.createElement("button");
+  retryButton.type = "button";
+  retryButton.dataset.retry = "true";
+  retryButton.textContent = "Try Again";
+  retryButton.className = "mt-4 rounded-lg bg-purple-800 px-5 py-2 text-white hover:bg-purple-950";
+  retryButton.addEventListener("click", () => loadBooks(query));
+  emptyMessage.append(retryButton);
+}
+
 async function loadBooks(query = DEFAULT_QUERY) {
   const currentRequest = ++searchRequest;
 
-  resultsStatus.textContent = "Searching the enchanted library...";
+  // Show the hand-picked books right away, then load the rest.
+  const instantBooks = mergeWithFeatured(query, []);
   emptyMessage.classList.add("hidden");
-  bookGrid.replaceChildren();
 
-  const loadingMessage = document.createElement("p");
-  loadingMessage.className = "col-span-full py-12 text-center text-purple-800";
-  loadingMessage.textContent = "Discovering magical stories...";
-  bookGrid.append(loadingMessage);
+  if (instantBooks.length > 0) {
+    books = instantBooks;
+    renderHomepage();
+    resultsStatus.textContent = "Loading more books...";
+  } else {
+    books = [];
+    resultsStatus.textContent = "Searching the enchanted library...";
+    bookGrid.replaceChildren();
+
+    const loadingMessage = document.createElement("p");
+    loadingMessage.className = "col-span-full py-12 text-center text-purple-800";
+    loadingMessage.textContent = "Discovering magical stories...";
+    bookGrid.append(loadingMessage);
+  }
 
   try {
     const results = await fetchBooks(query);
@@ -102,29 +134,7 @@ async function loadBooks(query = DEFAULT_QUERY) {
     if (currentRequest !== searchRequest) return;
 
     console.error("Book loading error:", error);
-
-    // The API failed, but your featured books can still show.
-    books = mergeWithFeatured(query, []);
-
-    if (books.length > 0) {
-      renderHomepage();
-      resultsStatus.textContent = `${resultsStatus.textContent} (online results unavailable)`;
-      return;
-    }
-
-    bookGrid.replaceChildren();
-    emptyMessage.classList.remove("hidden");
-    emptyText.textContent = "We couldn't load the library. Please check your connection and try again.";
-    resultsStatus.textContent = "Unable to connect to the book service.";
-
-    removeRetryButton();
-    const retryButton = document.createElement("button");
-    retryButton.type = "button";
-    retryButton.dataset.retry = "true";
-    retryButton.textContent = "Try Again";
-    retryButton.className = "mt-4 rounded-lg bg-purple-800 px-5 py-2 text-white hover:bg-purple-950";
-    retryButton.addEventListener("click", () => loadBooks(query));
-    emptyMessage.append(retryButton);
+    showLoadError(query, instantBooks.length > 0);
   }
 }
 

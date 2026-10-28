@@ -1,4 +1,7 @@
 const API_BASE_URL = "https://openlibrary.org";
+const CACHE_PREFIX = "enchantedReadsSearch:";
+const CACHE_MINUTES = 30;
+const TIMEOUT_MS = 15000;
 
 function getCategories(subjects = []) {
   const text = subjects.join(" ").toLowerCase();
@@ -41,24 +44,78 @@ function isRelevantBook(book) {
   );
 }
 
+function readCache(key) {
+  try {
+    const raw = sessionStorage.getItem(CACHE_PREFIX + key);
+    if (!raw) return null;
+
+    const { time, books } = JSON.parse(raw);
+    if (Date.now() - time > CACHE_MINUTES * 60000) return null;
+
+    return Array.isArray(books) ? books : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeCache(key, books) {
+  try {
+    sessionStorage.setItem(
+      CACHE_PREFIX + key,
+      JSON.stringify({ time: Date.now(), books })
+    );
+  } catch {
+    // Storage full or blocked: ignore, caching is optional.
+  }
+}
+
+async function fetchWithTimeout(url, ms) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+
+  try {
+    return await fetch(url, { signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export async function fetchBooks(searchTerm = "fantasy romance") {
   const query = searchTerm.trim() || "fantasy romance";
+  const cacheKey = query.toLowerCase();
+
+  const cached = readCache(cacheKey);
+  if (cached) return cached;
 
   const params = new URLSearchParams({
     q: query,
-    limit: "40",
+    limit: "30",
     fields: "key,title,author_name,first_publish_year,subject,cover_i"
   });
 
-  const response = await fetch(`${API_BASE_URL}/search.json?${params.toString()}`);
+  const url = `${API_BASE_URL}/search.json?${params.toString()}`;
 
-  if (!response.ok) {
-    throw new Error(`Unable to fetch books. Status: ${response.status}`);
+  let response;
+  let lastError;
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      response = await fetchWithTimeout(url, TIMEOUT_MS);
+      if (response.ok) break;
+      lastError = new Error(`Unable to fetch books. Status: ${response.status}`);
+    } catch (error) {
+      lastError = error;
+    }
+    response = null;
+  }
+
+  if (!response) {
+    throw lastError || new Error("Unable to fetch books.");
   }
 
   const data = await response.json();
 
-  return (data.docs || [])
+  const books = (data.docs || [])
     .filter(isRelevantBook)
     .map((book) => {
       const subjects = book.subject || [];
@@ -81,4 +138,7 @@ export async function fetchBooks(searchTerm = "fantasy romance") {
         link: `https://openlibrary.org${book.key}`
       };
     });
+
+  writeCache(cacheKey, books);
+  return books;
 }
